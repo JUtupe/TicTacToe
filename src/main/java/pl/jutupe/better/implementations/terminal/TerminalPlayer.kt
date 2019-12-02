@@ -13,11 +13,17 @@ class TerminalPlayer(
         println("$character wykonuje ruch")
         println("podaj pozycję w formacie 'x:y'")
 
-        val playerMove = readLine()?.split(":")!!
+        try {
+            val playerMove = readLine()?.split(":")!!
 
-        val x = playerMove[0].toIntOrNull() ?: Field.INVALID_FIELD_INDEX
-        val y = playerMove[1].toIntOrNull() ?: Field.INVALID_FIELD_INDEX
+            val x = playerMove[0].toIntOrNull() ?: Field.INVALID_FIELD_INDEX
+            val y = playerMove[1].toIntOrNull() ?: Field.INVALID_FIELD_INDEX
 
-        game.onMoveTaken(Pair(x, y), this)
+            game.onMoveTaken(Pair(x, y), this)
+        } catch (e: Exception) {
+            val invalidMove = Pair(Field.INVALID_FIELD_INDEX, Field.INVALID_FIELD_INDEX)
+
+            game.onMoveTaken(invalidMove, this)
+        }
     }
 }
